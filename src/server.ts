@@ -11,6 +11,10 @@ app.listen(inputPort);
 type ParamType = { numPorts: string };
 let curPort = 10000;
 app.get("/:numPorts", (req: Express.Request<ParamType>, res) => {
+  // check for Nan
+  if (isNaN(Number.parseInt(req.params.numPorts))) {
+    curPort = 10000;
+  }
   const numPorts = Number.parseInt(req.params.numPorts);
   console.log(numPorts);
   curPort += numPorts;
