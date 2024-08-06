@@ -9,13 +9,14 @@ const inputPort = process.env.PORT || 4001;
 
 app.listen(inputPort);
 type ParamType = { numPorts: string };
-let curPort = 10000;
+let curPort = 11000;
 app.get("/:numPorts", (req: Express.Request<ParamType>, res) => {
   // check for Nan
-  if (isNaN(Number.parseInt(req.params.numPorts))) {
-    curPort = 10000;
-  }
   const numPorts = Number.parseInt(req.params.numPorts);
+  if(isNaN(numPorts)) {
+    res.status(400).send("Invalid number of ports");
+    return;
+  }
   console.log(numPorts);
   curPort += numPorts;
   res.status(200).send(`${curPort}`);
